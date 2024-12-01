@@ -105,7 +105,8 @@ class HomeScreen extends StatelessWidget {
           Image.asset("assets/로고.png", scale: 1.3,),
           Center(
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(minimumSize: Size(150, 70)),
+              style: ElevatedButton.styleFrom(minimumSize: Size(150, 70), elevation: 0,
+              backgroundColor: Colors.white),
               onPressed: () {
                 // 타이머 화면으로 이동
                 Navigator.push(
@@ -296,7 +297,8 @@ class _TimerScreenState extends State<TimerScreen> {
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            minimumSize: Size(100, 70)),
+                            minimumSize: Size(100, 70), shape: CircleBorder(),
+                        padding: const EdgeInsets.all(50), backgroundColor: Colors.white10),
                         onPressed: !isTimerRunning
                             ? null
                             : () {
@@ -307,7 +309,7 @@ class _TimerScreenState extends State<TimerScreen> {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => HomeScreen()));
                         },
-                        child: Text("기록 종료"),
+                        child: Text("기록 종료", style: TextStyle(fontSize: 32, color: Colors.black),),
                       ),
                     ),
                   ],
@@ -411,7 +413,7 @@ class _CalendarState extends State<Calendar> {
     super.initState();
     _today = DateTime.now();
     setState(() {
-      _events[_today] = Helper.totalSip;
+      _events[DateTime(_today.year, _today.month, _today.day)] = Helper.totalSip;
     });
   }
 
@@ -441,7 +443,6 @@ class _CalendarState extends State<Calendar> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset: true, // 키보드 나타날 때 화면 조정
         appBar: AppBar(
           title: Text(
             "Calendar",
@@ -498,15 +499,15 @@ class _CalendarState extends State<Calendar> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "선택된 날짜: ${_selectedDay.toLocal()}",
+                  "선택된 날짜: ${_selectedDay.year}-${_selectedDay.month < 10 ? 0 : ""}${_selectedDay.month}-${_selectedDay.day < 10 ? 0 : ""}${_selectedDay.day}",
                   style: TextStyle(fontSize: 13),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  _events.containsKey(_selectedDay)
-                      ? "기록: ${_events[_selectedDay]}"
+                  _events.containsKey(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day))
+                      ? "기록: ${_events[DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)]}잔"
                       : "잘하셨어요! 오늘은 기록이 없습니다!",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
@@ -1236,6 +1237,7 @@ class GameEndScreen extends StatefulWidget {
 
 class _GameEndScreenState extends State<GameEndScreen> {
   List<List<String>> warningList = [
+    ["휴..", "아직은 괜찮네요."],
     ["앗!", "조금 실수했네요.."],
     ["조심하세요!", "취한 것 같아요"],
     ["오늘은 여기까지!", "이제 집에 돌아가세요!"]
@@ -1251,8 +1253,8 @@ class _GameEndScreenState extends State<GameEndScreen> {
 
   void printMessage() {
     if (Helper.failedGames < 4) {
-      message1 = warningList[Helper.failedGames - 1][0];
-      message2 = warningList[Helper.failedGames - 1][1];
+      message1 = warningList[Helper.failedGames][0];
+      message2 = warningList[Helper.failedGames][1];
     }
   }
 
