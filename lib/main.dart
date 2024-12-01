@@ -7,7 +7,11 @@ void main() {
 }
 
 class Helper {
+  static int time = 0;
+  static int number = 0;
+
   static void goToStartScreen(BuildContext context) {
+    _TimerScreenState.timer?.cancel();
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -202,7 +206,7 @@ class _MultiplicationGameState extends State<MultiplicationGame> {
             height: 30,
           ),
           ElevatedButton(
-              onPressed: checkAnswer,
+              onPressed: (correct || wrong || timeUp) ? null : checkAnswer,
               child: Text(
                 "정답 제출",
                 style: TextStyle(fontSize: 25),
@@ -399,7 +403,7 @@ class _DifferentWordGameState extends State<DifferentWordGame> {
                           borderRadius: BorderRadius.circular(10)),
                       padding: EdgeInsets.symmetric(vertical: 20.0), // 버튼 높이
                     ),
-                    onPressed: () {
+                    onPressed: (correct || wrong || timeUp) ? null : () {
                       checkAnswer(index);
                     },
                     child: Text(
@@ -618,7 +622,7 @@ class _TypingGameState extends State<TypingGame> {
             height: 20,
           ),
           ElevatedButton(
-              onPressed: checkAnswer,
+              onPressed: (correct || wrong || timeUp) ? null : checkAnswer,
               child: Text(
                 "정답 제출",
                 style: TextStyle(fontSize: 25),
@@ -812,7 +816,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person, size: 40,),
             onPressed: () {},
           ),
         ],
@@ -861,6 +865,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+
 // 두 번째 화면 (타이머 작동 중 화면)
 class TimerScreen extends StatefulWidget {
   final bool startTimer;
@@ -869,35 +874,35 @@ class TimerScreen extends StatefulWidget {
   _TimerScreenState createState() => _TimerScreenState();
 }
 
-int time = 0;
-int number = 0;
 
 class _TimerScreenState extends State<TimerScreen> {
   // 마셨어요 버튼 클릭 시 증가하는 변수
   // 타이머에 의해 증가하는 시간 변수
-  Timer? _timer; // 타이머 객체
+  static Timer? timer; // 타이머 객체
   bool _isTimerRunning = false; // 타이머 상태 관리 변수
 
   // 타이머 시작
   void _startTimer() {
     _isTimerRunning = true;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        time++; // 1초마다 time을 1씩 증가
+        Helper.time++; // 1초마다 time을 1씩 증가
       });
     });
   }
 
   // 타이머 멈추기
   void _stopTimer() {
-    _isTimerRunning = false;
-    _timer?.cancel(); // 타이머 멈추기
+    setState(() {
+      _isTimerRunning = false;
+      timer?.cancel(); // 타이머 멈추기
+    });
   }
 
   // 타이머 리셋
   void _resetTimer() {
     setState(() {
-      time = 0; // 타이머 리셋
+      Helper.time = 0; // 타이머 리셋
     });
     _stopTimer(); // 타이머 멈추기
   }
@@ -939,6 +944,17 @@ class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person, size: 40,),
+            onPressed: () {},
+          ),
+        ],
+      ),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -958,7 +974,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   color: Colors.white,
                   margin: EdgeInsets.only(right: 20),
                   child: Text(
-                    _formatTime(time), // time을 형식화하여 표시
+                    _formatTime(Helper.time), // time을 형식화하여 표시
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
@@ -971,7 +987,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   color: Colors.white,
                   margin: EdgeInsets.only(right: 20),
                   child: Text(
-                    "$number", // number 값을 텍스트로 표시
+                    "${Helper.number}", // number 값을 텍스트로 표시
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
@@ -1028,9 +1044,9 @@ class _TimerScreenState extends State<TimerScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 400, right: 10),
                   child: OutlinedButton(
-                    onPressed: () {
+                    onPressed: !_isTimerRunning ? null : () {
                       setState(() {
-                        number += 1; // number를 1만큼 증가
+                        Helper.number++; // number를 1만큼 증가
                       });
                     },
                     child: Text(
@@ -1042,7 +1058,7 @@ class _TimerScreenState extends State<TimerScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 400, left: 10),
                   child: OutlinedButton(
-                    onPressed: () {
+                    onPressed: !_isTimerRunning ? null : () {
                       failedGames = 0;
                       Navigator.push(
                           context,
