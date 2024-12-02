@@ -1,6 +1,5 @@
-# design_sago
+# 딱 한 잔
 
-A new Flutter project.
 
 ## Getting Started
 
