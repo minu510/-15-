@@ -1,7 +1,7 @@
 import 'dart:async'; // Timer 클래스를 사용하기 위한 패키지
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:table_calendar/table_calendar.dart'; // 캘린더 기능을 사용하기 위한 패키지
 
 void main() {
   runApp(const MyApp());
@@ -25,16 +25,6 @@ class Helper {
             )));
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -329,7 +319,7 @@ class _TimerScreenState extends State<TimerScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 400, right: 10),
+                  margin: EdgeInsets.only(top: 300, right: 10),
                   child: OutlinedButton(
                     onPressed: !isTimerRunning ? null : () {
                       setState(() {
@@ -344,7 +334,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 400, left: 10),
+                  margin: EdgeInsets.only(top: 300, left: 10),
                   child: OutlinedButton(
                     onPressed: !isTimerRunning ? null : () {
                       Helper.failedGames = 0;
@@ -367,22 +357,6 @@ class _TimerScreenState extends State<TimerScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -573,26 +547,6 @@ class _CalendarState extends State<Calendar> {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 구구단 게임
 class MultiplicationGame extends StatefulWidget {
   const MultiplicationGame({super.key});
@@ -714,7 +668,7 @@ class _MultiplicationGameState extends State<MultiplicationGame> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            height: 50,
+            height: 10,
           ),
           Row(
             // 남은 시간
@@ -937,7 +891,7 @@ class _DifferentWordGameState extends State<DifferentWordGame> {
         child: Column(
           children: [
             SizedBox(
-              height: 50,
+              height: 10,
             ),
             Row(
               // 남은 시간
@@ -1141,7 +1095,7 @@ class _TypingGameState extends State<TypingGame> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            height: 50,
+            height: 10,
           ),
           Row(
             // 남은 시간
@@ -1333,4 +1287,3 @@ class _GameEndScreenState extends State<GameEndScreen> {
         ));
   }
 }
-
