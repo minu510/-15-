@@ -481,7 +481,7 @@ class _CalendarState extends State<Calendar> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   _events.containsKey(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day))
-                      ? "기록: ${_events[DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)]}잔"
+                      ? "기록: ${_events[DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)]}잔, ${Helper.totalTime}초"
                       : "잘하셨어요! 오늘은 기록이 없습니다!",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
@@ -1126,12 +1126,12 @@ class _TypingGameState extends State<TypingGame> {
                 Text(
                   question,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 22),
                 ),
                 TextField(
                   keyboardType: TextInputType.text,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24, color: Colors.black54),
+                  style: TextStyle(fontSize: 22, color: Colors.black54),
                   cursorColor: Colors.black54,
                   decoration: InputDecoration(),
                   onChanged: (value) {
